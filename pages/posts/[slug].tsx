@@ -43,26 +43,29 @@ const Post = ({ post }) => {
         </p>
       ))}
       <div className="mt-10 font-medium">
-        <ReactMarkdown
-          components={{
-            code({ node, inline, className, children }) {
-              const match = /language-(\w+)/.exec(className || "");
-              return !inline && match ? (
-                <SyntaxHighlighter
-                  style={docco}
-                  language={match[1]}
-                  PreTag="div"
-                >
-                  {String(children).replace(/\n$/, "")}
-                </SyntaxHighlighter>
-              ) : (
-                <code>{children}</code>
-              );
-            },
-          }}
-        >
-          {post.markdown}
-        </ReactMarkdown>
+      <ReactMarkdown
+        components={{
+          code({ node, inline, className, children, ...props }) {
+            console.log(children);
+
+            const match = /language-(\w+)/.exec(className || "");
+            return !inline && match ? (
+              <SyntaxHighlighter
+                style={docco}
+                language={match[1]}
+                PreTag="div"
+                {...props}
+              >
+                {String(children).replace(/\n$/, "")}
+              </SyntaxHighlighter>
+            ) : (
+              <code {...props}>{children}</code>
+            );
+          },
+        }}
+      >
+        {post.markdown}
+      </ReactMarkdown>
 
         <Link href="/">
           <span className="pb-20 block mt-3 text-sky-900">←ホームに戻る</span>
