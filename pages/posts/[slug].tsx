@@ -59,7 +59,7 @@ const Post = ({ post }) => {
                 {String(children).replace(/\n$/, "")}
               </SyntaxHighlighter>
             ) : (
-              <code {...props}>{children}</code>
+              <code {...props}>{String(children)}</code>
             );
           },
         }}
