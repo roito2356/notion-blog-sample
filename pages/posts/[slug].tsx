@@ -4,7 +4,7 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import Link from "next/link";
-import remarkGfm from 'remark-gfm';
+// import remarkGfm from 'remark-gfm';
 // import { defaultStyle } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 
 export const getStaticPaths = async () => {
@@ -45,7 +45,6 @@ const Post = ({ post }) => {
       ))}
       <div className="mt-10 font-medium">
       <ReactMarkdown
-      remarkPlugins={[remarkGfm]}
       components={{
         code({ node, inline, className, children, ...props }) {
           const match = /language-(\w+)/.exec(className || "");
