@@ -4,6 +4,7 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { docco } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import Link from "next/link";
+import remarkGfm from 'remark-gfm';
 // import { defaultStyle } from "react-syntax-highlighter/dist/cjs/styles/hljs";
 
 export const getStaticPaths = async () => {
@@ -44,28 +45,33 @@ const Post = ({ post }) => {
       ))}
       <div className="mt-10 font-medium">
       <ReactMarkdown
-        components={{
-          code({ node, inline, className, children, ...props }) {
-            const match = /language-(\w+)/.exec(className || "");
-            const content = Array.isArray(children) ? children.join('') : children;
+      remarkPlugins={[remarkGfm]}
+      components={{
+        code({ node, inline, className, children, ...props }) {
+          const match = /language-(\w+)/.exec(className || "");
+          const content = Array.isArray(children) ? children.join('') : children;
 
-            return !inline && match ? (
-              <SyntaxHighlighter
-                style={docco}
-                language={match[1]}
-                PreTag="div"
-                {...props}
-              >
-                {String(content).replace(/\n$/, "")}
-              </SyntaxHighlighter>
-            ) : (
-              <code {...props}>{String(content)}</code>
-            );
-          },
-        }}
-      >
-        {post.markdown}
-      </ReactMarkdown>
+          // デバッグ用ログ
+          console.log("Children content:", content);
+          console.log("Markdown content:", post.markdown);
+
+          return !inline && match ? (
+            <SyntaxHighlighter
+              style={docco}
+              language={match[1]}
+              PreTag="div"
+              {...props}
+            >
+              {String(content).replace(/\n$/, "")}
+            </SyntaxHighlighter>
+          ) : (
+            <code {...props}>{String(content)}</code>
+          );
+        },
+      }}
+    >
+      {post.markdown}
+    </ReactMarkdown>
 
         <Link href="/">
           <span className="pb-20 block mt-3 text-sky-900">←ホームに戻る</span>
