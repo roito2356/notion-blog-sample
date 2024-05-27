@@ -46,9 +46,9 @@ const Post = ({ post }) => {
       <ReactMarkdown
         components={{
           code({ node, inline, className, children, ...props }) {
-            console.log(children);
-
             const match = /language-(\w+)/.exec(className || "");
+            const content = Array.isArray(children) ? children.join('') : children;
+
             return !inline && match ? (
               <SyntaxHighlighter
                 style={docco}
@@ -56,10 +56,10 @@ const Post = ({ post }) => {
                 PreTag="div"
                 {...props}
               >
-                {String(children).replace(/\n$/, "")}
+                {String(content).replace(/\n$/, "")}
               </SyntaxHighlighter>
             ) : (
-              <code {...props}>{String(children)}</code>
+              <code {...props}>{String(content)}</code>
             );
           },
         }}
