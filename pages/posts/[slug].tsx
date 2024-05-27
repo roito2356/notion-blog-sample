@@ -50,10 +50,6 @@ const Post = ({ post }) => {
           const match = /language-(\w+)/.exec(className || "");
           const content = Array.isArray(children) ? children.join('') : children;
 
-          // デバッグ用ログ
-          console.log("Children content:", content);
-          console.log("Markdown content:", post.markdown);
-
           return !inline && match ? (
             <SyntaxHighlighter
               style={docco}
